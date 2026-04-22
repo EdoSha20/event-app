@@ -28,7 +28,7 @@ export const actions = {
 			return fail(400, { error: 'Falsches Passwort' });
 		}
 
-		// session erstellen
+		// session erstellen yes
 		const sessionId = await createSession(user.id);
 
 		cookies.set('session', sessionId, {
