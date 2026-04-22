@@ -1,22 +1,24 @@
 import pool from '$lib/server/db.js';
+import { redirect } from '@sveltejs/kit';
+export async function load({ locals }) {
+	if (!locals.user) redirect(303, '/login');
 
-export async function load() {
-    const [rows] = await pool.execute('SELECT * FROM categories');
+	const [rows] = await pool.execute('SELECT * FROM categories');
 
-    return {
-        categories: rows
-    };
+	return {
+		categories: rows
+	};
 }
 
 export const actions = {
-    delete: async ({ request }) => {
-        const formData = await request.formData();
-        const id = formData.get('id');
+	delete: async ({ request }) => {
+		const formData = await request.formData();
+		const id = formData.get('id');
 
-        await pool.execute('DELETE FROM categories WHERE id = ?', [id]);
+		await pool.execute('DELETE FROM categories WHERE id = ?', [id]);
 
-        return {
-            success: true
-        };
-    }
+		return {
+			success: true
+		};
+	}
 };
